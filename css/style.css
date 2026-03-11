@@ -1,0 +1,213 @@
+/* =========================
+   Body & wrapper
+========================= */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  font-family: system-ui;
+  padding: 20px;
+  margin: 0;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  perspective: 800px;
+}
+
+/* =========================
+   Background Balloons
+========================= */
+.balloon-bg-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0; /* behind card */
+  overflow: visible;
+}
+
+.balloon-bg {
+  position: absolute;
+  bottom: -50px;
+  width: 25px;
+  height: 35px;
+  background: radial-gradient(circle at 50% 50%, #ff4757, #ff1f3f);
+  border-radius: 50% 50% 50% 50%;
+  animation: floatUpBg 6s linear forwards;
+}
+
+.balloon-bg::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  background: #ff1f3f;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes floatUpBg {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-300px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* =========================
+   Card / Envelope
+========================= */
+.card {
+  position: relative;
+  width: 320px;
+  min-height: 220px;
+  background: #ff6b81;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transition:
+    background 0.6s ease,
+    transform 0.6s ease,
+    box-shadow 0.6s ease;
+  z-index: 1;
+}
+
+/* Open state: white card & scale up */
+.card.open {
+  background: white;
+  transform: scale(1.05);
+}
+
+/* Hover effect when opened */
+.card.open:hover {
+  transform: scale(1.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================
+   Flap
+========================= */
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ff4757;
+  clip-path: polygon(0 0, 50% 60%, 100% 0);
+  transform-origin: top;
+  transition: transform 0.6s ease;
+  z-index: 2;
+}
+
+.card.open .flap {
+  transform: rotateX(-180deg);
+}
+
+/* =========================
+   Message
+========================= */
+.message {
+  position: relative;
+  text-align: center;
+  padding: 40px 20px 30px;
+  color: white;
+  opacity: 0;
+  transition:
+    opacity 0.6s ease,
+    color 0.6s ease;
+}
+
+.card.open .message {
+  opacity: 1;
+  color: #333;
+}
+
+.message h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.message p {
+  font-size: 15px;
+  line-height: 1.4;
+}
+.signature {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Mobile adjustments */
+@media (max-width: 400px) {
+  .message h1 {
+    font-size: 18px;
+  }
+  .message p {
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   Hearts
+========================= */
+.hearts {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  pointer-events: none;
+}
+
+.heart {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: red;
+  transform: rotate(45deg);
+  animation: float 2.5s forwards;
+}
+
+.heart:before,
+.heart:after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: red;
+  border-radius: 50%;
+}
+
+.heart:before {
+  top: -6px;
+  left: 0;
+}
+.heart:after {
+  left: -6px;
+  top: 0;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-200px) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.signature {
+  font-weight: bold;
+  font-size: 18px;
+}
